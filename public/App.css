@@ -1,0 +1,130 @@
+/* App.css */
+* {
+  transition: all 0.2s ease;
+}
+/* Light Mode */
+.light-mode {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.light-mode input[type="text"],
+.light-mode input[type="datetime-local"],
+.light-mode textarea,
+.light-mode .task-item {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.light-mode .card{
+  color: #000000;
+}
+
+/* Dark Mode */
+.dark-mode {
+  background-color: #121212;
+  color: #ffd700; /* Gold text color */
+}
+
+/*styling for the body element to also respond to the theme toggle*/
+body, .root {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+body.dark-mode, .root.dark-mode {
+  background-color: #121212;
+  color: #ffd700; /* Gold text color */
+}
+
+.dark-mode input[type="text"],
+.dark-mode input[type="datetime-local"],
+.dark-mode textarea,
+.dark-mode .task-item {
+  background-color: #121212;
+  color: #ffd700; /* Gold text color */
+}
+
+.dark-mode .card{
+  color: #ffd700; /* Gold text color */
+}
+
+/*class to fix go back button at bottom of screen*/ 
+.fixed {
+  position: relative;
+  padding: 10px;
+  margin: 10px auto;
+  bottom: 0;
+}
+
+/*styles for list items and the links in them to be like a navbar and be aesthetic */
+.navbar{
+  position: fixed;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  width: 30%;
+}
+
+.navbar ul{
+  list-style-type: none;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  width: 100%;
+}
+
+.navbar ul li{
+  text-align: center;
+}
+
+.navbar a, .navbar li label{
+  float: left;
+  display: block;
+  width: 100%;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  margin-bottom: 0;
+}
+
+.navbar a:hover{
+  background-color: #ddd;
+  color: black;
+}
+
+.navbar li label:hover{
+  cursor: pointer;
+}
+
+.footer {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.footer p{
+  cursor: pointer;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+p a{
+  color: steelblue;
+  text-decoration: none;
+  border-color: transparent;
+}
+
+p a:hover{
+  background-color: steelblue;
+  color: unset;
+  text-decoration: none;
+  border: 1px solid;
+  border-radius: 0.3rem;
+  padding: 0.05em;
+}
