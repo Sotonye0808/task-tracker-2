@@ -54,7 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             await db.collection('userdatas').updateOne(
                 { userId },
                 {
-                    $push: { 'tasks': newTask },
+                    $push: { 'tasks': newTask } as any, // Use 'as any' to resolve type error
                     $inc: { 'daily.tasksAdded': 1, 'weekly.tasksAdded': 1, 'monthly.tasksAdded': 1 },
                     $set: { lastUpdated: new Date() },
                 },
