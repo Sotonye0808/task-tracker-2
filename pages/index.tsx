@@ -182,7 +182,7 @@ const TasksPage: React.FC<UserData> = ({ users }) => {
 
       // Remove the deleted task from the UI
       const updatedUsersCopy = [...updatedUsers];
-      const updatedUsersTasks = updatedUsersCopy[0].tasks.filter(task => task._id !== taskId);
+      const updatedUsersTasks = updatedUsersCopy[0].tasks.filter(task => task._id !== taskId) as User['tasks'];
       updatedUsersCopy[0].tasks = updatedUsersTasks;
       setUpdatedUsers(updatedUsersCopy);
 
@@ -488,3 +488,5 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 };
+
+
