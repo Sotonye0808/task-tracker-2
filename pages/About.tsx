@@ -33,7 +33,7 @@ const About = () => {
                 <li><strong>Toggle reminder:</strong> Users can toggle a reminder for a task, which will display their tasks boldly so they won't forget.
               </li>
               <li><strong>Usage statistics:</strong> The app tracks the number of tasks added and removed by the user on a daily, weekly, and monthly basis.</li>
-              <li><strong>Responsive design:</strong> The app is responsive and works well on both desktop and mobile devices.</li>
+              <li><strong>Responsive design:</strong> The app is responsive and works well on both desktop and mobile devices. There's also a feature for toggling between light mode and dark mode.</li>
               <li><strong>Persistent data:</strong> Task data is stored uniquely for each user, so tasks persist even after refreshing the page.</li>
             </ul>
             <hr />

@@ -11,7 +11,7 @@ This is a simple task tracker app built using React. It allows users to track th
 - Delete tasks: Users can remove tasks from the list.
 - Toggle reminder: Users can toggle a reminder for a task, which will display their tasks boldly so they won't forget.
 - Usage statistics: The app tracks the number of tasks added and removed by the user on a daily, weekly, and monthly basis.
-- Responsive design: The app is responsive and works well on both desktop and mobile devices.
+- Responsive design: The app is responsive and works well on both desktop and mobile devices. There's also a feauture for toggling between light mode and dark mode.
 - Persistent data: Task data is stored uniquely for each user, so tasks persist even after refreshing the page.
 
 ## Usage
