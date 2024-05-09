@@ -44,7 +44,7 @@ const About = () => {
             <hr />
             <h4>Developer</h4>
             <p>Hi, I'm Sotonye Dagogo, a fullstack developer who loves building web applications.</p>
-            <p>Check out my <a href="https://github.com/Sotonye0808">github</a > for more projects.</p>
+            <p>Check out my <a href="https://github.com/Sotonye0808">github</a > for more projects. Also feel free to contact me about any bugs or issues you come across when using my applications. You can find my e-mail on my github and be sure to use a descriptive subject.</p>
             <hr />
           </div>
           <br />
