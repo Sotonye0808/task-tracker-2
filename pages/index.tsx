@@ -233,7 +233,9 @@ const TasksPage: React.FC<UserData> = ({ users }) => {
                   ))}
                 </ul>
               </div>
-            )) : 'No tasks found'}
+            )) : <div className='container text-center'>
+              <p>No tasks found</p>
+            </div>}
           </main>
           <nav className="col navbar mt-2">
             <ul className="nav flex-column">
