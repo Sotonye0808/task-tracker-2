@@ -47,9 +47,6 @@ const Stats: React.FC<UserData> = ({ users }) => {
     return (
       <Layout>
         <div className="container">
-          <Head>
-            <title>Statistics</title>
-          </Head>
           <h2 className="mb-4 text-center mt-4">Your Stats</h2>
           <div className="alert alert-info text-center" role="alert">
             No stats found. <a href="/TaskForm">Add a task</a>
@@ -85,9 +82,6 @@ const Stats: React.FC<UserData> = ({ users }) => {
       <div className="container-fluid row">
         <div className="col-2"></div>
         <div className='col-8'>
-          <Head>
-            <title>Statistics</title>
-          </Head>
           <h2 className="mb-4 text-center mt-4">Your Stats</h2>
           <div className='row'>
             <div className="col-2"></div>

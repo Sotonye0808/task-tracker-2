@@ -204,7 +204,7 @@ const TasksPage: React.FC<UserData> = ({ users }) => {
   return (
     <div>
       <Head>
-        <title>Tasks</title>
+        <title>Task Tracker</title>
         <link rel="icon" href="/task.ico" />
       </Head>
 

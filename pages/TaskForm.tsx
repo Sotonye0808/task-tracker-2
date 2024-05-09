@@ -51,10 +51,10 @@ const TaskForm = () => {
   return (
     <Layout>
       <div className='container'>
-        <div className="row container-fluid">
+        <div className="row">
           <div className='col-1'></div>
           <div className='col-10'>
-            <form onSubmit={handleSubmit} className='mt-3 container-fluid row'>
+            <form onSubmit={handleSubmit} className='mt-3 row'>
               <div className='col'>
                 <div className="col-12 text-center">
                   <h2 className='col'>ADD SOME TASKS!</h2>

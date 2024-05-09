@@ -1,6 +1,7 @@
 // Layout.js
 import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Head from 'next/head';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [darkMode, setDarkMode] = useState(false);
@@ -24,6 +25,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div>
+          <Head>
+            <title>Task Tracker</title>
+          </Head>
     <h1 className="mt-2 mb-3 text-center">TASK TRACKER</h1>
       <div className={darkMode ? 'dark-mode' : 'light-mode'}>
         {children}
@@ -62,6 +66,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         .dark-mode checkbox {
             background-color: #121212;
             color: #ffd700; /* Gold text color */
+        }
+
+        .dark-mode .card{
+          color: #ffd700; /* Gold text color */
         }
         `}
       </style>
