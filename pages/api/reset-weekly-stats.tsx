@@ -9,9 +9,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const client = await clientPromise;
             const db = client.db("test");
 
-            // Get user's IP address from request headers
-            const userId = `::ffff:${req.headers['x-forwarded-for'] || req.socket.remoteAddress}`;
-
+            const userId = `::ffff:${req.headers['x-real-ip'] || req.connection.remoteAddress}`;
+            
             // Reset the weekly tasks counters
             await db.collection('userdatas').updateOne(
                 { userId },

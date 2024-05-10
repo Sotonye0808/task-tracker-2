@@ -2,40 +2,13 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import clientPromise from '../../lib/mongodb';
 import { ObjectId } from 'mongodb';
 
-interface User {
-    _id: string;
-    userId: string;
-    daily: {
-        tasksAdded: number;
-        tasksRemoved: number;
-    };
-    weekly: {
-        tasksAdded: number;
-        tasksRemoved: number;
-    };
-    monthly: {
-        tasksAdded: number;
-        tasksRemoved: number;
-    };
-    tasks: [{
-        _id: string;
-        title: string;
-        description: string;
-        date: Date;
-        reminder: boolean;
-        createdAt: Date;
-    }];
-    lastUpdated: Date;
- }
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
         try {
             const client = await clientPromise;
             const db = client.db("test");
 
-            // Get user's IP address from request headers
-            const userId = `::ffff:${req.headers['x-forwarded-for'] || req.socket.remoteAddress}`;
+            const userId = `::ffff:${req.headers['x-real-ip'] || req.connection.remoteAddress}`;
 
             // Extract task data from the request body
             const { title, description, date, reminder } = req.body;

@@ -136,8 +136,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const client = await clientPromise;
     const db = client.db("test");
 
-    // Get user's IP address from request headers
-    const userId = `::ffff:${context.req.headers['x-forwarded-for'] || context.req.socket.remoteAddress}`;
+    const userId = `::ffff:${context.req.headers['x-real-ip'] || context.req.connection.remoteAddress}`;
 
     const stats = await db
       .collection("userdatas")

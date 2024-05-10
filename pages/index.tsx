@@ -33,9 +33,10 @@ interface User {
 }
 interface UserData {
   users: User[];
+  error?: string;
 }
 
-const TasksPage: React.FC<UserData> = ({ users }) => {
+const TasksPage: React.FC<UserData> = ({ users, error }) => {
   const [darkMode, setDarkMode] = useState(false);
   const [expandedTasks, setExpandedTasks] = useState<string[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -66,7 +67,7 @@ const TasksPage: React.FC<UserData> = ({ users }) => {
     const today = new Date().toDateString();
     const lastUpdated = new Date(users[0]?.lastUpdated).toDateString(); // Assuming users[0] contains the current user's data
   
-    if (!lastResetStatsDate || lastResetStatsDate !== today || lastResetStatsDate !== lastUpdated) {
+    if (!lastResetStatsDate || (lastResetStatsDate !== today && lastResetStatsDate !== lastUpdated)) {
       // Check if it's a new day
       const lastResetDay = lastResetStatsDate ? new Date(lastResetStatsDate).getDay() : null;
       const todayDay = new Date().getDay();
@@ -202,7 +203,49 @@ const TasksPage: React.FC<UserData> = ({ users }) => {
       </Layout>
     );
   }
-
+  if (error) {return (
+        <Layout>
+          <div className="row">
+            <main role="main" className="col-8">
+              <h2 className='mt-2'>Task List</h2>
+              <div>
+                <p>{error}</p>
+              </div>
+            </main>
+            <nav className="col navbar mt-2">
+              <ul className="nav flex-column">
+                <li className="nav-item">
+                  <Link href="/" legacyBehavior passHref>
+                    <a className="nav-link">Tasks</a>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link href="./TaskForm" legacyBehavior passHref>
+                    <a className="nav-link">Add Tasks</a>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link href="./Stats" legacyBehavior passHref>
+                    <a className="nav-link">Stats</a>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link href="./About" legacyBehavior passHref>
+                    <a className="nav-link">About</a>
+                  </Link>
+                </li>
+              </ul>
+              <button className="btn fixed btn-dark mt-3" onClick={toggleDarkMode}>
+                {darkMode ? 'Light Mode' : 'Dark Mode'}
+              </button>
+            </nav>
+          </div>
+          <div className='mt-5'>
+            <Footer />
+          </div>
+        </Layout>
+      );
+    }
   
 
   const toggleTaskExpansion = (taskId: string) => {
@@ -489,9 +532,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const client = await clientPromise;
     const db = client.db("test");
 
-    // Get user's IP address from request headers
-    const userId = `::ffff:${context.req.headers['x-forwarded-for'] || context.req.socket.remoteAddress}`;
+    // Get user's IP address in a way that it will work locally and when deployed
+    const userId = `::ffff:${context.req.headers['x-real-ip'] || context.req.connection.remoteAddress}`;
+    
+    // Check if the user has any tasks
+    const userTasks = await db.collection("userdatas").findOne({ userId: userId });
 
+    if (!userTasks || !userTasks.tasks || userTasks.tasks.length === 0) {
+      // If the user has no tasks, return an empty array for the users prop
+      return { props: { users: [] } };
+    }
+
+    // If the user has tasks, retrieve their data from the database
     const tasks = await db
       .collection("userdatas")
       .find({ userId: userId })
@@ -501,11 +553,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         users: JSON.parse(JSON.stringify(tasks)),
       },
     };
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error('Error fetching data:', error);
     return {
       props: {
         users: [],
+        error: 'Error fetching data. Please try again later.',
       },
     };
   }
