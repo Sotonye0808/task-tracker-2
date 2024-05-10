@@ -26,7 +26,6 @@ This is a simple task tracker app built using React. It allows users to track th
 * React
 * TypeScript
 * HTML/CSS
-* Next.js
 * MongoDB
 
 ---
