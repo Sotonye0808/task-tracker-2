@@ -1,6 +1,5 @@
 // Stats.tsx
-import React, { useState, useEffect } from 'react';
-import Head from 'next/head';
+import React from 'react';
 import clientPromise from '../lib/mongodb';
 import { GetServerSideProps } from 'next';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -23,6 +22,7 @@ interface User {
     tasksRemoved: number;
   };
   tasks: [{
+    _id: string;
     title: string;
     description: string;
     date: Date;
@@ -86,7 +86,7 @@ const Stats: React.FC<UserData> = ({ users }) => {
           <div className='row'>
             <div className="col-2"></div>
           {users.map((user) => (
-            <div className='col-8'>
+            <div key={user._id} className='col-8'>
               <div className="col-md mb-4">
                 <div className="card bg-primary">
                   <div className="card-body">

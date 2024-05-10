@@ -66,7 +66,7 @@ const TasksPage: React.FC<UserData> = ({ users }) => {
     const today = new Date().toDateString();
     const lastUpdated = new Date(users[0]?.lastUpdated).toDateString(); // Assuming users[0] contains the current user's data
   
-    if (!lastResetStatsDate || lastResetStatsDate !== lastUpdated) {
+    if (!lastResetStatsDate || lastResetStatsDate !== today || lastResetStatsDate !== lastUpdated) {
       // Check if it's a new day
       const lastResetDay = lastResetStatsDate ? new Date(lastResetStatsDate).getDay() : null;
       const todayDay = new Date().getDay();
@@ -104,7 +104,9 @@ const TasksPage: React.FC<UserData> = ({ users }) => {
   
   const fetchResetDailyStatsAPI = async () => {
     try {
-      const response = await fetch('/api/reset-daily-stats');
+      const response = await fetch('/api/reset-daily-stats', {
+        method: 'POST' // Specify the HTTP method
+    });
       if (!response.ok) {
         throw new Error('Failed to reset daily statistics');
       }
@@ -115,7 +117,9 @@ const TasksPage: React.FC<UserData> = ({ users }) => {
   
   const fetchResetWeeklyStatsAPI = async () => {
     try {
-      const response = await fetch('/api/reset-weekly-stats');
+      const response = await fetch('/api/reset-weekly-stats', {
+        method: 'POST' // Specify the HTTP method
+    });
       if (!response.ok) {
         throw new Error('Failed to reset weekly statistics');
       }
@@ -126,7 +130,9 @@ const TasksPage: React.FC<UserData> = ({ users }) => {
   
   const fetchResetMonthlyStatsAPI = async () => {
     try {
-      const response = await fetch('/api/reset-monthly-stats');
+      const response = await fetch('/api/reset-monthly-stats', {
+        method: 'POST' // Specify the HTTP method
+    });
       if (!response.ok) {
         throw new Error('Failed to reset monthly statistics');
       }
