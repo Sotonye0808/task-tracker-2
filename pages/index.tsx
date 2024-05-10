@@ -165,8 +165,7 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
             <main role="main" className="col-8">
               <h2 className='mt-2'>Task List</h2>
               <div>
-                <p>No users found</p>
-                <p>Why don't you try adding some tasks?</p>
+                <p>Why don't you try <a href='./TaskForm'>adding some tasks</a>?</p>
               </div>
             </main>
             <nav className="col navbar mt-2">
