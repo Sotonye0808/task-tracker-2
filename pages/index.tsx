@@ -63,49 +63,46 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
   }, [darkMode]);
 
   useEffect(() => {
-    if (users.length === 0 || (users.length > 0 && users[0].tasks.length === 0)) {
-    return; // Exit early if there are no users or if the user has no tasks
-  }
-  const lastUpdated = new Date(users[0]?.lastUpdated).toDateString(); // Assuming users[0] contains the current user's data
-
-  // Get today's date
-  const today = new Date().toDateString();
+    const lastUpdated = new Date(users[0]?.lastUpdated).toDateString(); // Assuming users[0] contains the current user's data
   
-  if (!lastUpdated || lastUpdated !== today) {
-    // Check if it's a new day
-    const lastResetDay = lastUpdated ? new Date(lastUpdated).getDay() : null;
-    const todayDay = new Date().getDay();
-    const isSameDay = lastResetDay === todayDay;
-
-    // Check if it's a new week
-    const lastResetWeek = lastUpdated ? getWeekNumber(new Date(lastUpdated)) : null;
-    const todayWeek = getWeekNumber(new Date());
-    const isSameWeek = lastResetWeek === todayWeek;
-
-    // Check if it's a new month
-    const lastResetMonth = lastUpdated ? new Date(lastUpdated).getMonth() : null;
-    const todayMonth = new Date().getMonth();
-    const isSameMonth = lastResetMonth === todayMonth;
-
-    if (!isSameDay) {
-      // Make the API call to reset daily stats
-      fetchResetDailyStatsAPI();
+    // Get today's date
+    const today = new Date().toDateString();
+    
+    if (users[0] && lastUpdated && lastUpdated !== today) {
+      // Check if it's a new day
+      const lastResetDay = new Date(lastUpdated).getDay();
+      const todayDay = new Date().getDay();
+      const isSameDay = lastResetDay === todayDay;
+  
+      // Check if it's a new week
+      const lastResetWeek = getWeekNumber(new Date(lastUpdated));
+      const todayWeek = getWeekNumber(new Date());
+      const isSameWeek = lastResetWeek === todayWeek;
+  
+      // Check if it's a new month
+      const lastResetMonth = new Date(lastUpdated).getMonth();
+      const todayMonth = new Date().getMonth();
+      const isSameMonth = lastResetMonth === todayMonth;
+  
+      if (!isSameDay) {
+        // Make the API call to reset daily stats
+        fetchResetDailyStatsAPI();
+      }
+  
+      if (!isSameWeek) {
+        // Make the API call to reset weekly stats
+        fetchResetWeeklyStatsAPI();
+      }
+  
+      if (!isSameMonth) {
+        // Make the API call to reset monthly stats
+        fetchResetMonthlyStatsAPI();
+      }
+  
+      // Update the lastUpdated date
+      localStorage.setItem('lastResetStatsDate', today);
     }
-
-    if (!isSameWeek) {
-      // Make the API call to reset weekly stats
-      fetchResetWeeklyStatsAPI();
-    }
-
-    if (!isSameMonth) {
-      // Make the API call to reset monthly stats
-      fetchResetMonthlyStatsAPI();
-    }
-
-    // Update the lastUpdated date
-    localStorage.setItem('lastResetStatsDate', today);
-    }
-   }, [users]);
+  }, [users]);
   
   const fetchResetDailyStatsAPI = async () => {
     try {
