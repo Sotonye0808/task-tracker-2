@@ -381,8 +381,8 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
             <button className="btn btn-secondary col-4" onClick={() => setShowConfirmation(false)}>
               Cancel
             </button>
-            <button className="btn btn-danger col-4" onClick={handleDelete}>
-              Remove
+            <button className="btn btn-danger col-4" onClick={handleDelete} disabled={isDeleting}>
+              {isDeleting ? 'Removing Task...' : 'Remove'}
             </button>
           </div>
         <style jsx global>
