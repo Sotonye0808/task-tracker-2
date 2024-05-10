@@ -63,45 +63,46 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
   }, [darkMode]);
 
   useEffect(() => {
-    const lastResetStatsDate = localStorage.getItem('lastResetStatsDate');
-    const today = new Date().toDateString();
-    const lastUpdated = new Date(users[0]?.lastUpdated).toDateString(); // Assuming users[0] contains the current user's data
-  
-    if (!lastResetStatsDate || (lastResetStatsDate !== today && lastResetStatsDate !== lastUpdated)) {
-      // Check if it's a new day
-      const lastResetDay = lastResetStatsDate ? new Date(lastResetStatsDate).getDay() : null;
-      const todayDay = new Date().getDay();
-      const isSameDay = lastResetDay === todayDay;
+  const lastUpdated = new Date(users[0]?.lastUpdated).toDateString(); // Assuming users[0] contains the current user's data
 
-      // Check if it's a new week
-      const lastResetWeek = lastResetStatsDate ? getWeekNumber(new Date(lastResetStatsDate)) : null;
-      const todayWeek = getWeekNumber(new Date());
-      const isSameWeek = lastResetWeek === todayWeek;
+  // Get today's date
+  const today = new Date().toDateString();
+  
+  if (!lastUpdated || lastUpdated !== today) {
+    // Check if it's a new day
+    const lastResetDay = lastUpdated ? new Date(lastUpdated).getDay() : null;
+    const todayDay = new Date().getDay();
+    const isSameDay = lastResetDay === todayDay;
 
-      // Check if it's a new month
-      const lastResetMonth = lastResetStatsDate ? new Date(lastResetStatsDate).getMonth() : null;
-      const todayMonth = new Date().getMonth();
-      const isSameMonth = lastResetMonth === todayMonth;
-  
-      if (!isSameDay) {
-        // Make the API call to reset daily stats
-        fetchResetDailyStatsAPI();
-      }
-  
-      if (!isSameWeek) {
-        // Make the API call to reset weekly stats
-        fetchResetWeeklyStatsAPI();
-      }
-  
-      if (!isSameMonth) {
-        // Make the API call to reset monthly stats
-        fetchResetMonthlyStatsAPI();
-      }
-  
-      // Update the lastResetStatsDate in localStorage
-      localStorage.setItem('lastResetStatsDate', lastUpdated);
+    // Check if it's a new week
+    const lastResetWeek = lastUpdated ? getWeekNumber(new Date(lastUpdated)) : null;
+    const todayWeek = getWeekNumber(new Date());
+    const isSameWeek = lastResetWeek === todayWeek;
+
+    // Check if it's a new month
+    const lastResetMonth = lastUpdated ? new Date(lastUpdated).getMonth() : null;
+    const todayMonth = new Date().getMonth();
+    const isSameMonth = lastResetMonth === todayMonth;
+
+    if (!isSameDay) {
+      // Make the API call to reset daily stats
+      fetchResetDailyStatsAPI();
     }
-  }, [users]);
+
+    if (!isSameWeek) {
+      // Make the API call to reset weekly stats
+      fetchResetWeeklyStatsAPI();
+    }
+
+    if (!isSameMonth) {
+      // Make the API call to reset monthly stats
+      fetchResetMonthlyStatsAPI();
+    }
+
+    // Update the lastUpdated date
+    localStorage.setItem('lastResetStatsDate', today);
+    }
+   }, [users]);
   
   const fetchResetDailyStatsAPI = async () => {
     try {
