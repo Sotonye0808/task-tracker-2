@@ -50,7 +50,6 @@ const TaskForm = () => {
 
   return (
     <Layout>
-      <div className='container'>
         <div className="row">
           <div className='col-1'></div>
           <div className='col-10'>
@@ -99,7 +98,6 @@ const TaskForm = () => {
           <Footer />
           </div>
         </div>
-      </div>
     </Layout>
   );
 };

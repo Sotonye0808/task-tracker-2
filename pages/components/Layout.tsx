@@ -28,9 +28,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <Head>
             <title>Task Tracker</title>
           </Head>
-    <h1 className="mt-2 mb-3 text-center">TASK TRACKER</h1>
+      
       <div className={darkMode ? 'dark-mode' : 'light-mode'}>
-        {children}
+        <div className="container">
+          <h1 className="mt-2 mb-3">TASK TRACKER</h1>
+          {children}
+        </div>
       </div>
       <style jsx global>
         {`

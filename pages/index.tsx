@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Head from 'next/head';
 import Link from 'next/link';
 import clientPromise from '../lib/mongodb';
 import { GetServerSideProps } from 'next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from './components/Footer';
+import Layout from './components/Layout';
 
 interface User {
   _id: string;
@@ -149,15 +149,61 @@ const TasksPage: React.FC<UserData> = ({ users }) => {
     const weekNo = Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
     return weekNo;
   };
-  
-
-  if (!users || users.length === 0) {
-    console.log("No users found");
-  }
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
+
+  if (!users || users.length === 0) {
+    console.log("No users found");
+    //if no user's found return home page with navbar to user and message to add tasks with link to TaskForm page
+
+    return (
+      <Layout>
+          <div className="row">
+            <main role="main" className="col-8">
+              <h2 className='mt-2'>Task List</h2>
+              <div>
+                <p>No users found</p>
+                <p>Why don't you try adding some tasks?</p>
+              </div>
+            </main>
+            <nav className="col navbar mt-2">
+              <ul className="nav flex-column">
+                <li className="nav-item">
+                  <Link href="/" legacyBehavior passHref>
+                    <a className="nav-link">Tasks</a>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link href="./TaskForm" legacyBehavior passHref>
+                    <a className="nav-link">Add Tasks</a>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link href="./Stats" legacyBehavior passHref>
+                    <a className="nav-link">Stats</a>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link href="./About" legacyBehavior passHref>
+                    <a className="nav-link">About</a>
+                  </Link>
+                </li>
+              </ul>
+              <button className="btn fixed btn-dark mt-3" onClick={toggleDarkMode}>
+                {darkMode ? 'Light Mode' : 'Dark Mode'}
+              </button>
+            </nav>
+          </div>
+          <div className='mt-5'>
+            <Footer />
+          </div>
+      </Layout>
+    );
+  }
+
+  
 
   const toggleTaskExpansion = (taskId: string) => {
     setExpandedTasks((prevExpandedTasks) => {
@@ -208,261 +254,231 @@ const TasksPage: React.FC<UserData> = ({ users }) => {
   };
 
   return (
-    <div>
-      <Head>
-        <title>Task Tracker</title>
-        <link rel="icon" href="/task.ico" />
-      </Head>
-
-      <div className='container'>
-        <h1 className="mt-2 mb-3">TASK TRACKER</h1>
-        <div className="row">
-          <main role="main" className="col-8">
-            <h2 className='mt-2'>Task List</h2>
-            { users ? users.map((user) => (
-              <div key={user._id} className="mb-4">
-                <ul className="list-group">
-                  {user.tasks.map((task, index) => (
-                    <li key={index} className={task.reminder ? 'list-group-item task-item fw-bold text-uppercase' : 'list-group-item task-item'} onClick={() => toggleTaskExpansion(task._id)}>
-                      <h4 className={task.reminder ? 'fw-bold' : ''}>{task.title}</h4>
-                      {expandedTasks.includes(task._id) && (
-                        <div>
-                          <p><u>Description</u>: {task.description}</p>
-                          <p><u>Date & Time</u>: {new Date(task.date).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</p>
-                          <button onClick={() => openConfirmationModal(task)} disabled={isDeleting} className='btn btn-danger'>
-                            {isDeleting ? 'Removing Task...' : 'Remove'}
-                          </button>
-                        </div>
-                      )}
-
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )) : 'No tasks found'}
-          </main>
-          <nav className="col navbar mt-2">
-            <ul className="nav flex-column">
-              <li className="nav-item">
-                <Link href="/" legacyBehavior passHref>
-                  <a className="nav-link">Tasks</a>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href="./TaskForm" legacyBehavior passHref>
-                  <a className="nav-link">Add Tasks</a>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href="./Stats" legacyBehavior passHref>
-                  <a className="nav-link">Stats</a>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href="./About" legacyBehavior passHref>
-                  <a className="nav-link">About</a>
-                </Link>
-              </li>
-            </ul>
-            <button className="btn fixed btn-dark mt-3" onClick={toggleDarkMode}>
-              {darkMode ? 'Light Mode' : 'Dark Mode'}
-            </button>
-          </nav>
-        </div>
-        <div className='mt-5'>
-          <Footer />
-        </div>
-      </div>
-      <div className='modal text-center'>
-        <header>
-          <div className='row'>
-            <div className='col-2'></div>
-            <div className='col-8 text-center'>
-              <h2>Confirmation</h2>
-            </div>
-            <div className='col-2'>
-              <button>
-                <span aria-hidden="true" onClick={() => setShowConfirmation(false)}>&times;</span>
+    <Layout>
+      <div>
+          <div className="row">
+            <main role="main" className="col-8">
+              <h2 className='mt-2'>Task List</h2>
+              {users.map((user) => (
+                <div key={user._id} className="mb-4">
+                  <ul className="list-group">
+                    {user.tasks ? user.tasks.map((task, index) => (
+                      <li key={index} className={task.reminder ? 'list-group-item task-item fw-bold text-uppercase' : 'list-group-item task-item'} onClick={() => toggleTaskExpansion(task._id)}>
+                        <h4 className={task.reminder ? 'fw-bold' : ''}>{task.title}</h4>
+                        {expandedTasks.includes(task._id) && (
+                          <div>
+                            <p><u>Description</u>: {task.description}</p>
+                            <p><u>Date & Time</u>: {new Date(task.date).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</p>
+                            <button onClick={() => openConfirmationModal(task)} disabled={isDeleting} className='btn btn-danger'>
+                              {isDeleting ? 'Removing Task...' : 'Remove'}
+                            </button>
+                          </div>
+                        )}
+                      </li>
+                    )) : <div>
+                      <p>No tasks found</p>
+                    </div>}
+                  </ul>
+                </div>
+              ))}
+            </main>
+            <nav className="col navbar mt-2">
+              <ul className="nav flex-column">
+                <li className="nav-item">
+                  <Link href="/" legacyBehavior passHref>
+                    <a className="nav-link">Tasks</a>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link href="./TaskForm" legacyBehavior passHref>
+                    <a className="nav-link">Add Tasks</a>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link href="./Stats" legacyBehavior passHref>
+                    <a className="nav-link">Stats</a>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link href="./About" legacyBehavior passHref>
+                    <a className="nav-link">About</a>
+                  </Link>
+                </li>
+              </ul>
+              <button className="btn fixed btn-dark mt-3" onClick={toggleDarkMode}>
+                {darkMode ? 'Light Mode' : 'Dark Mode'}
               </button>
-            </div>
+            </nav>
           </div>
-        </header>
-        <div className='modal-message'>
-          <p>Are you sure you want to remove the task "{taskTitle}"?</p> <p>This action cannot be undone!</p>
+          <div className='mt-5'>
+            <Footer />
+          </div>
         </div>
-        <div className='modal-footer row'>
-          <button className="btn btn-secondary col-4" onClick={() => setShowConfirmation(false)}>
-            Cancel
-          </button>
-          <button className="btn btn-danger col-4" onClick={handleDelete}>
-            Remove
-          </button>
-        </div>
+        <div className='modal text-center'>
+          <header>
+            <div className='row'>
+              <div className='col-2'></div>
+              <div className='col-8 text-center'>
+                <h2>Confirmation</h2>
+              </div>
+              <div className='col-2'>
+                <button>
+                  <span aria-hidden="true" onClick={() => setShowConfirmation(false)}>&times;</span>
+                </button>
+              </div>
+            </div>
+          </header>
+          <div className='modal-message'>
+            <p>Are you sure you want to remove the task "{taskTitle}"?</p> <p>This action cannot be undone!</p>
+          </div>
+          <div className='modal-footer row'>
+            <button className="btn btn-secondary col-4" onClick={() => setShowConfirmation(false)}>
+              Cancel
+            </button>
+            <button className="btn btn-danger col-4" onClick={handleDelete}>
+              Remove
+            </button>
+          </div>
+        <style jsx global>
+          {`
+          * {
+            transition: all 0.2s ease-in-out;
+          }
+          /*styling for the body element to also respond to the theme toggle*/
+          body {
+            background-color: #ffffff;
+            color: #000000;
+          }
+          .dark-mode {
+            background-color: #121212;
+            color: #ffd700; /* Gold text color */
+          }
+          .dark-mode input[type="text"],
+          .dark-mode input[type="datetime-local"],
+          .dark-mode textarea,
+          .dark-mode .task-item, .dark-mode ul{
+            background-color: #121212;
+            color: #ffd700; /* Gold text color */
+          }
+          .dark-mode .task-item:hover{
+            background-color: #333;
+          }
+          .dark-mode .card{
+            color: #ffd700; /* Gold text color */
+          }
+          /*class to fix go theme button at bottom of parent*/
+          .fixed {
+            position: relative;
+            padding: 10px;
+            margin: 10px auto;
+            bottom: 0;
+          }
+          /*styles for list items and the links in them to be like a navbar and be aesthetic */
+          .navbar{
+            position: fixed;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+            width: 30%;
+          }
+          .navbar ul{
+            list-style-type: none;
+            margin: 0 auto;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+            width: 100%;
+          }
+          .navbar ul li{
+            text-align: center;
+          }
+          .navbar a, .navbar li label{
+            float: left;
+            display: block;
+            width: 100%;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            margin-bottom: 0;
+          }
+          .navbar a:hover{
+            background-color: #ddd;
+            color: black;
+          }
+          .navbar li label:hover{
+            cursor: pointer;
+          }
+          .task-item {
+            cursor: pointer;
+          }
+          .task-item:hover {
+            background-color: #f9f9f9;
+          }
+          input[type="text"], form input[type="datetime-local"], form textarea {
+            border-radius: 30px;
+          }
+          /* styles for the modal and its components */
+          .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: ${showConfirmation ? 'block' : 'none'};
+          }
+          .modal header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+          }
+          .modal-message {
+            background-color: #fff;
+            padding: 1rem;
+          }
+          .modal-footer {
+            display: flex;
+            margin: 0 auto;
+            left: 0;
+            justify-content: center;
+            padding: 1rem;
+          }
+          .modal header button {
+            margin-left: 1rem;
+            border-radius: 25%;
+            background-color: transparent;
+          }
+          .modal header button:hover {
+            background-color: #f00;
+          }
+          .modal header button span {
+            font-weight: bold;
+            font-size: 1rem;
+            color: #fff;
+          }
+          /* styles for modal in dark mode */
+          .dark-mode .modal {
+            background-color: rgba(0, 0, 0, 0.5);
+          }
+          .dark-mode .modal header {
+            background-color: ##333;
+            color: #ffd700;
+          }
+          .dark-mode .modal-message {
+            background-color: #121212;
+            color: #ffd700;
+          }
+          .dark-mode .modal-footer {
+            background-color: #121212;
+          }
+          `}
+        </style>
       </div>
-      <style jsx global>
-        {`
-        * {
-          transition: all 0.2s ease-in-out;
-        }
-
-        /*styling for the body element to also respond to the theme toggle*/
-        body {
-          background-color: #ffffff;
-          color: #000000;
-        }
-
-        .dark-mode {
-          background-color: #121212;
-          color: #ffd700; /* Gold text color */
-        }
-
-        .dark-mode input[type="text"],
-        .dark-mode input[type="datetime-local"],
-        .dark-mode textarea,
-        .dark-mode .task-item, .dark-mode ul{
-          background-color: #121212;
-          color: #ffd700; /* Gold text color */
-        }
-
-        .dark-mode .task-item:hover{
-          background-color: #333;
-        }
-        .dark-mode .card{
-          color: #ffd700; /* Gold text color */
-        }
-
-        /*class to fix go theme button at bottom of parent*/ 
-        .fixed {
-          position: relative;
-          padding: 10px;
-          margin: 10px auto;
-          bottom: 0;
-        }
-
-        /*styles for list items and the links in them to be like a navbar and be aesthetic */
-        .navbar{
-          position: fixed;
-          top: 0;
-          right: 0;
-          margin: 0;
-          padding: 0;
-          overflow: hidden;
-          background-color: #333;
-          width: 30%;
-        }
-
-        .navbar ul{
-          list-style-type: none;
-          margin: 0 auto;
-          padding: 0;
-          overflow: hidden;
-          background-color: #333;
-          width: 100%;
-        }
-
-        .navbar ul li{
-          text-align: center;
-        }
-
-        .navbar a, .navbar li label{
-          float: left;
-          display: block;
-          width: 100%;
-          color: #f2f2f2;
-          text-align: center;
-          padding: 14px 16px;
-          text-decoration: none;
-          margin-bottom: 0;
-        }
-
-        .navbar a:hover{
-          background-color: #ddd;
-          color: black;
-        }
-
-        .navbar li label:hover{
-          cursor: pointer;
-        }
-
-        .task-item {
-          cursor: pointer;
-        }
-
-        .task-item:hover {
-          background-color: #f9f9f9;
-        }
-
-        input[type="text"], form input[type="datetime-local"], form textarea {
-          border-radius: 30px;
-        }
-        /* styles for the modal and its components */
-        .modal {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0.5);
-          display: ${showConfirmation ? 'block' : 'none'};
-        }
-
-        .modal header {
-          background-color: #333;
-          color: #fff;
-          padding: 1rem;
-        }
-
-        .modal-message {
-          background-color: #fff;
-          padding: 1rem;
-        }
-
-        .modal-footer {
-          display: flex;
-          margin: 0 auto;
-          left: 0;
-          justify-content: center;
-          padding: 1rem;
-        }
-
-        .modal header button {
-          margin-left: 1rem;
-          border-radius: 25%;
-          background-color: transparent;
-        }
-
-        .modal header button:hover {
-          background-color: #f00;
-        }
-
-        .modal header button span {
-          font-weight: bold;
-          font-size: 1rem;
-          color: #fff;
-        }
-
-        /* styles for modal in dark mode */
-        .dark-mode .modal {
-          background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .dark-mode .modal header {
-          background-color: ##333;
-          color: #ffd700;
-        }
-
-        .dark-mode .modal-message {
-          background-color: #121212;
-          color: #ffd700;
-        }
-
-        .dark-mode .modal-footer {
-          background-color: #121212;
-        }
-
-        `}
-      </style>
-    </div>
+    </Layout>
   );
 };
 
