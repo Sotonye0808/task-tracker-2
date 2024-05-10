@@ -75,7 +75,7 @@ const TaskForm = () => {
                     />
                   </div>
                   <div className='row' id="formTaskDate">
-                    <label className='col-1  mt-4'>Date:</label>
+                    <label className='col-1  mt-4'>Date:</label><br />
                     <input type="datetime-local" value={date} onChange={(e) => setDate(e.target.value)} style={{ borderRadius: '0.3rem', border: '0.01px solid #efefff', padding: '5px' }} />
                   </div>
                   <div className='row mt-4' id="formTaskReminder">
