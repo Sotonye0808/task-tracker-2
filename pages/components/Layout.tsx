@@ -45,6 +45,19 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         * {
             transition: all 0.2s ease-in-out;
           }
+          p a{
+              color: steelblue;
+              text-decoration: none;
+              border-color: transparent;
+            }
+            p a:hover{
+              background-color: steelblue;
+              color: unset;
+              text-decoration: none;
+              border: 1px solid;
+              border-radius: 0.3rem;
+              padding: 0.05em;
+              }
 
         input[type="text"], input[type="datetime-local"] {
             borderRadius: 0.3rem, 
