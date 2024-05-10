@@ -227,8 +227,8 @@ const TasksPage: React.FC<UserData> = ({ users }) => {
                       <h4 className={task.reminder ? 'fw-bold' : ''}>{task.title}</h4>
                       {expandedTasks.includes(task._id) && (
                         <div>
-                          <p>Description: {task.description}</p>
-                          <p>Date & Time: {new Date(task.date).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</p>
+                          <p><u>Description</u>: {task.description}</p>
+                          <p><u>Date & Time</u>: {new Date(task.date).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</p>
                           <button onClick={() => openConfirmationModal(task)} disabled={isDeleting} className='btn btn-danger'>
                             {isDeleting ? 'Removing Task...' : 'Remove'}
                           </button>
@@ -239,9 +239,7 @@ const TasksPage: React.FC<UserData> = ({ users }) => {
                   ))}
                 </ul>
               </div>
-            )) : <div className='container text-center'>
-              <p>No tasks found</p>
-            </div>}
+            )) : 'No tasks found'}
           </main>
           <nav className="col navbar mt-2">
             <ul className="nav flex-column">
