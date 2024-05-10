@@ -63,6 +63,9 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
   }, [darkMode]);
 
   useEffect(() => {
+    if (users.length === 0 || (users.length > 0 && users[0].tasks.length === 0)) {
+    return; // Exit early if there are no users or if the user has no tasks
+  }
   const lastUpdated = new Date(users[0]?.lastUpdated).toDateString(); // Assuming users[0] contains the current user's data
 
   // Get today's date
