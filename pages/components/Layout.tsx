@@ -74,6 +74,53 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         .dark-mode .card{
           color: #ffd700; /* Gold text color */
         }
+        
+      /*class to fix go theme button at bottom of parent*/
+      .fixed {
+        position: relative;
+        padding: 10px;
+        margin: 10px auto;
+        bottom: 0;
+      }
+      /*styles for list items and the links in them to be like a navbar and be aesthetic */
+      .navbar{
+        position: fixed;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+        width: 30%;
+      }
+      .navbar ul{
+        list-style-type: none;
+        margin: 0 auto;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+        width: 100%;
+      }
+      .navbar ul li{
+        text-align: center;
+      }
+      .navbar a, .navbar li label{
+        float: left;
+        display: block;
+        width: 100%;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        margin-bottom: 0;
+      }
+      .navbar a:hover{
+        background-color: #ddd;
+        color: black;
+      }
+      .navbar li label:hover{
+        cursor: pointer;
+      }
         `}
       </style>
     </div>
