@@ -27,6 +27,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <div>
           <Head>
             <title>Task Tracker</title>
+            <meta name="description" content="Task tracker app built with Next.js" />
+            <link rel="icon" href="/task.ico" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta name="theme-color" content="#000000" />
+            <link rel="apple-touch-icon" href="/task.ico" />
           </Head>
       
       <div className={darkMode ? 'dark-mode' : 'light-mode'}>
