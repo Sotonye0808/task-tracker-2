@@ -27,7 +27,7 @@ This is a simple task tracker app built using React. It allows users to track th
 * TypeScript
 * HTML/CSS
 * MongoDB
-(You'll need a MongoDB cluster .env file for the MONGO_URI)
+(You'll need a MongoDB cluster and .env file for the MONGO_URI)
 ---
 
 ### Check it out here [Task Tracker](https://task-tracker-2.vercel.app)
