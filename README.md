@@ -4,7 +4,7 @@ This project was built using Next.js and deployed via Vercel.
 
 ## [Task Tracker](https://task-tracker-2.vercel.app)
 
-This is a simple task tracker app built using React. It allows users to track their tasks by adding, deleting, and marking tasks as complete.
+This is a simple task tracker app built using React. It allows users to track their tasks by adding and deleting them while also tracking their usage statistics. Guest visitors however, cannot enjoy these privileges.
 
 ## Features
 - Add new tasks: Users can add tasks by entering a task name and optionally specifying a day and time.

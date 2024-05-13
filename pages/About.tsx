@@ -24,7 +24,7 @@ const About = () => {
                   </button>
               </div>
             </div><br />
-            <p>This is a simple task tracker app built using React. It allows users to track their tasks by adding and deleting them and also tracking their usage statistics.</p>
+            <p>This is a simple task tracker app built using React. It allows users to track their tasks by adding and deleting them while also tracking their usage statistics. Guest visitors however, cannot enjoy these privileges.</p>
             <hr />
             <h4>Features</h4>
             <ul>

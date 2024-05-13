@@ -83,6 +83,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
         .dark-mode input[type="text"],
         .dark-mode  input[type="datetime-local"],
+        .dark-mode input[type="email"],
         .dark-mode textarea,
         .dark-mode checkbox {
             background-color: #121212;
@@ -139,6 +140,60 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       .navbar li label:hover{
         cursor: pointer;
       }
+
+      /* styles for the modal and its components */
+          .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+          }
+          .modal header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+          }
+          .modal-message {
+            background-color: #fff;
+            padding: 1rem;
+          }
+          .modal-footer {
+            display: flex;
+            margin: 0 auto;
+            left: 0;
+            justify-content: center;
+            padding: 1rem;
+          }
+          .modal header button {
+            margin-left: 1rem;
+            border-radius: 25%;
+            background-color: transparent;
+          }
+          .modal header button:hover {
+            background-color: #f00;
+          }
+          .modal header button span {
+            font-weight: bold;
+            font-size: 1rem;
+            color: #fff;
+          }
+          /* styles for modal in dark mode */
+          .dark-mode .modal {
+            background-color: rgba(0, 0, 0, 0.5);
+          }
+          .dark-mode .modal header {
+            background-color: ##333;
+            color: #ffd700;
+          }
+          .dark-mode .modal-message {
+            background-color: #121212;
+            color: #ffd700;
+          }
+          .dark-mode .modal-footer {
+            background-color: #121212;
+          }
         `}
       </style>
     </div>

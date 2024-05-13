@@ -19,12 +19,19 @@ const TaskForm = () => {
     setIsSubmitting(true);
 
     try {
+      // Retrieve userId from local storage
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+        throw new Error('User not logged in');
+      }
+
       const res = await fetch('/api/add-task', { // Send a POST request to the API route
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          userId,
           title,
           description,
           date,

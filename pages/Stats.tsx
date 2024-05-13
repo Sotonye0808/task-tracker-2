@@ -136,8 +136,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const client = await clientPromise;
     const db = client.db("test");
 
-    const userId = `::ffff:${context.req.headers['x-real-ip'] || context.req.connection.remoteAddress}`;
-
+    // Get user's email from cookie as userId
+    const userId = context.req.cookies.userId;
+    
     const stats = await db
       .collection("userdatas")
       .find({ userId: userId })

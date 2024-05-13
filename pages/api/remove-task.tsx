@@ -8,7 +8,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const client = await clientPromise;
             const db = client.db("test");
 
-            const userId = `::ffff:${req.headers['x-real-ip'] || req.connection.remoteAddress}`;
+            // Extract userId from request body
+            const { userId } = req.body;
 
             // Extract task ID from the query parameters
             const { taskId } = req.query as { taskId: string };

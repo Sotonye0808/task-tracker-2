@@ -8,7 +8,8 @@ import Layout from './components/Layout';
 
 interface User {
   _id: string;
-  userId: string;
+  username: string;
+  userId: string; //email
   daily: {
     tasksAdded: number;
     tasksRemoved: number;
@@ -44,6 +45,7 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
   const [taskTitle, setTaskTitle] = useState<string>('');
   const [updatedUsers, setUpdatedUsers] = useState<User[]>(users);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
     const storedDarkMode = localStorage.getItem('darkMode');
@@ -62,6 +64,16 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
     localStorage.setItem('darkMode', darkMode.toString());
   }, [darkMode]);
 
+  useEffect(() => {
+    // Check if localStorage is available (running on the client-side)
+    if (typeof window !== 'undefined') {
+      const storedUsername = localStorage.getItem('username');
+      setUsername(storedUsername || 'guest');
+    }
+  }, []);
+
+
+  // reset stats block start
   useEffect(() => {
     const lastUpdated = new Date(users[0]?.lastUpdated).toDateString(); // Assuming users[0] contains the current user's data
   
@@ -106,8 +118,12 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
   
   const fetchResetDailyStatsAPI = async () => {
     try {
+      const userId = localStorage.getItem('userId');
       const response = await fetch('/api/reset-daily-stats', {
-        method: 'POST' // Specify the HTTP method
+        method: 'POST', // Specify the HTTP method
+        body: JSON.stringify({
+          userId,
+        }),
     });
       if (!response.ok) {
         throw new Error('Failed to reset daily statistics');
@@ -119,8 +135,12 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
   
   const fetchResetWeeklyStatsAPI = async () => {
     try {
+      const userId = localStorage.getItem('userId');
       const response = await fetch('/api/reset-weekly-stats', {
-        method: 'POST' // Specify the HTTP method
+        method: 'POST', // Specify the HTTP method
+        body: JSON.stringify({
+          userId,
+        }),
     });
       if (!response.ok) {
         throw new Error('Failed to reset weekly statistics');
@@ -132,8 +152,12 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
   
   const fetchResetMonthlyStatsAPI = async () => {
     try {
+      const userId = localStorage.getItem('userId');
       const response = await fetch('/api/reset-monthly-stats', {
-        method: 'POST' // Specify the HTTP method
+        method: 'POST', // Specify the HTTP method
+        body: JSON.stringify({
+          userId,
+        }),
     });
       if (!response.ok) {
         throw new Error('Failed to reset monthly statistics');
@@ -151,63 +175,17 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
     const weekNo = Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
     return weekNo;
   };
+// reset stats block end
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
 
-  if (!users || users.length === 0) {
-    console.log("No users found");
-    //if no user's found return home page with navbar to user and message to add tasks with link to TaskForm page
-
-    return (
-      <Layout>
-          <div className="row">
-            <main role="main" className="col-8">
-              <h2 className='mt-2'>Task List</h2>
-              <div>
-                <p>Why don't you try <a href='./TaskForm'>adding some tasks</a>?</p>
-              </div>
-            </main>
-            <nav className="col navbar mt-2">
-              <ul className="nav flex-column">
-                <li className="nav-item">
-                  <Link href="/" legacyBehavior passHref>
-                    <a className="nav-link">Tasks</a>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link href="./TaskForm" legacyBehavior passHref>
-                    <a className="nav-link">Add Tasks</a>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link href="./Stats" legacyBehavior passHref>
-                    <a className="nav-link">Stats</a>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link href="./About" legacyBehavior passHref>
-                    <a className="nav-link">About</a>
-                  </Link>
-                </li>
-              </ul>
-              <button className="btn fixed btn-dark mt-3" onClick={toggleDarkMode}>
-                {darkMode ? 'Light Mode' : 'Dark Mode'}
-              </button>
-            </nav>
-          </div>
-          <div className='mt-5'>
-            <Footer />
-          </div>
-      </Layout>
-    );
-  }
   if (error) {return (
         <Layout>
           <div className="row">
             <main role="main" className="col-8">
-              <h2 className='mt-2'>Task List</h2>
+              <h2 className='mt-2'>An error occured</h2>
               <div>
                 <p>{error}</p>
               </div>
@@ -264,11 +242,20 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
     setIsDeleting(true);
 
     try {
+      // Retrieve userId from local storage
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+        throw new Error('User not logged in');
+      }
+
       const res = await fetch(`/api/remove-task?taskId=${taskId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          userId,
+        }),
       });
 
       if (!res.ok) {
@@ -296,35 +283,55 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
     setShowConfirmation(true);
   };
 
+  // Function to check if an array has items
+  const hasItems = (arr: any[]) => Array.isArray(arr) && arr.length > 0;
+
   return (
     <Layout>
       <div>
           <div className="row">
-            <main role="main" className="col-8">
-              <h2 className='mt-2'>Task List</h2>
-              {users.map((user) => (
+          <main role="main" className="col-8">
+            {users.length > 0 ? (
+              users.map((user) => (
                 <div key={user._id} className="mb-4">
-                  <ul className="list-group">
-                    {user.tasks ? user.tasks.map((task, index) => (
-                      <li key={index} className={task.reminder ? 'list-group-item task-item fw-bold text-uppercase' : 'list-group-item task-item'} onClick={() => toggleTaskExpansion(task._id)}>
-                        <h4 className={task.reminder ? 'fw-bold' : ''}>{task.title}</h4>
-                        {expandedTasks.includes(task._id) && (
-                          <div>
-                            <p><u>Description</u>: {task.description}</p>
-                            <p><u>Date & Time</u>: {new Date(task.date).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</p>
-                            <button onClick={() => openConfirmationModal(task)} disabled={isDeleting} className='btn btn-danger'>
-                              {isDeleting ? 'Removing Task...' : 'Remove'}
-                            </button>
-                          </div>
-                        )}
-                      </li>
-                    )) : <div>
-                      <p>No tasks found</p>
-                    </div>}
-                  </ul>
+                  <h2 className='mb-4'>Welcome <a href="#">{user.username}</a>!</h2>
+                  {hasItems(user.tasks) ? <h3 className='mt-2'>Here are your tasks</h3> : <h3 className='mt-2'>You have no tasks</h3>}
+                  {hasItems(user.tasks) ? (
+                    <ul className="list-group">
+                      {user.tasks.map((task, index) => (
+                        <li key={index} className={task.reminder ? 'list-group-item task-item fw-bold text-uppercase' : 'list-group-item task-item'} onClick={() => toggleTaskExpansion(task._id)}>
+                          <h4 className={task.reminder ? 'fw-bold' : ''}>{task.title}</h4>
+                          {expandedTasks.includes(task._id) && (
+                            <div>
+                              <p><u>Description</u>: {task.description}</p>
+                              <p><u>Date & Time</u>: {new Date(task.date).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</p>
+                              <button onClick={() => openConfirmationModal(task)} disabled={isDeleting} className='btn btn-danger'>
+                                {isDeleting ? 'Removing Task...' : 'Remove'}
+                              </button>
+                            </div>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div>
+                      <p>Try adding some <a href="./TaskForm">here</a>.</p>
+                    </div>
+                  )}
                 </div>
-              ))}
-            </main>
+              ))
+            ) : (
+              <div>
+                <h2 className='mb-4'>Welcome <a href="#">{username}</a>!</h2>
+                <h3 className='mt-2'>You have no tasks</h3>
+                <div>
+                  <p>Try adding some <a href="./TaskForm">here</a>.</p>
+                  <p>Please <a href="./Login">login</a> if you haven't. You can't really do much without it!</p>
+                </div>
+              </div>
+            )}
+          </main>
+
             <nav className="col navbar mt-2">
               <ul className="nav flex-column">
                 <li className="nav-item">
@@ -518,6 +525,20 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
           .dark-mode .modal-footer {
             background-color: #121212;
           }
+
+          h2 a{
+            color: steelblue;
+            text-decoration: none;
+            border-color: transparent;
+          }
+          h2 a:hover{
+            background-color: steelblue;
+            color: unset;
+            text-decoration: none;
+            border: 1px solid;
+            border-radius: 0.3rem;
+            padding: 0.05em;
+          /* body dark mode styles */
           `}
         </style>
       </div>
@@ -532,9 +553,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const client = await clientPromise;
     const db = client.db("test");
 
-    // Get user's IP address in a way that it will work locally and when deployed
-    const userId = `::ffff:${context.req.headers['x-real-ip'] || context.req.connection.remoteAddress}`;
-    
+    // Get user's email from cookie as userId
+    const userId = context.req.cookies.userId;
+
     // Check if the user has any tasks
     const userTasks = await db.collection("userdatas").findOne({ userId: userId });
 
@@ -563,5 +584,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 };
+
 
 

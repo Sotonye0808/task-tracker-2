@@ -9,7 +9,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const client = await clientPromise;
             const db = client.db("test");
 
-            const userId = `::ffff:${req.headers['x-real-ip'] || req.connection.remoteAddress}`;
+            // Extract userId from request body
+            const { userId } = req.body;
             
             // Reset the weekly tasks counters
             await db.collection('userdatas').updateOne(
