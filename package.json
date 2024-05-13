@@ -17,6 +17,7 @@
     "deploy": "gh-pages -d .next"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.2.2",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "cookie": "^0.6.0",
