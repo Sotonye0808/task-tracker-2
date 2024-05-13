@@ -294,7 +294,7 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
             {users.length > 0 ? (
               users.map((user) => (
                 <div key={user._id} className="mb-4">
-                  <h2 className='mb-4'>Welcome <a href="#">{user.username}</a>!</h2>
+                  <h2 className='mb-4'>Welcome back <a href="#">{user.username}</a>!</h2>
                   {hasItems(user.tasks) ? <h3 className='mt-2'>Here are your tasks</h3> : <h3 className='mt-2'>You have no tasks</h3>}
                   {hasItems(user.tasks) ? (
                     <ul className="list-group">
@@ -322,7 +322,7 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
               ))
             ) : (
               <div>
-                <h2 className='mb-4'>Welcome <a href="#">{username}</a>!</h2>
+                <h2 className='mb-4'>Welcome back <a href="#">{username}</a>!</h2>
                 <h3 className='mt-2'>You have no tasks</h3>
                 <div>
                   <p>Try adding some <a href="./TaskForm">here</a>.</p>
