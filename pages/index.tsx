@@ -120,7 +120,7 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
     try {
       const userId = localStorage.getItem('userId');
       const response = await fetch('/api/reset-daily-stats', {
-        method: 'POST', // Specify the HTTP method
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -140,7 +140,10 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
     try {
       const userId = localStorage.getItem('userId');
       const response = await fetch('/api/reset-weekly-stats', {
-        method: 'POST', // Specify the HTTP method
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           userId,
         }),
@@ -157,7 +160,10 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
     try {
       const userId = localStorage.getItem('userId');
       const response = await fetch('/api/reset-monthly-stats', {
-        method: 'POST', // Specify the HTTP method
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           userId,
         }),
