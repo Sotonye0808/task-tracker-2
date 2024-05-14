@@ -121,6 +121,9 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
       const userId = localStorage.getItem('userId');
       const response = await fetch('/api/reset-daily-stats', {
         method: 'POST', // Specify the HTTP method
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           userId,
         }),
