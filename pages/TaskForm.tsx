@@ -68,7 +68,7 @@ const TaskForm = () => {
                 <div className="container">
                   <div className='row' id="formTaskTitle">
                     <label className='col-1 mt-4'>Title:</label>
-                    <input type="text"  placeholder="Enter task title" value={title} onChange={(e) => setTitle(e.target.value)} style={{ borderRadius: '0.3rem', border: '0.01px solid #efefff', padding: '5px'}} />
+                    <input type="text" required placeholder="Enter task title" value={title} onChange={(e) => setTitle(e.target.value)} style={{ borderRadius: '0.3rem', border: '0.01px solid #efefff', padding: '5px'}} />
                   </div>
                   <div className='row' id="formTaskDescription">
                     <label className='col-1 mt-4'>Description:</label>
