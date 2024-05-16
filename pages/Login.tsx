@@ -69,6 +69,7 @@ const Login: React.FC = () => {
         } else if (data.status === 'emailMismatch') {
             // Email mismatch
             setLoginStatus('emailMismatch');
+            setShowConfirmation(true);
         } else {
             // Neither username nor email match
             setShowConfirmation(true);
