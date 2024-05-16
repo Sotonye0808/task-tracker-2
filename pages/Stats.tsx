@@ -41,7 +41,8 @@ const handleGoBack = () => {
 
 const Stats: React.FC<UserData> = ({ users }) => {
 
-  if (!users || users.length === 0) {
+  // Check if users array is empty or if there's no user ID in local storage
+  if (!users || users.length === 0 || !localStorage.getItem('userId')) {
     console.log("No users found");
     // If no users are found or no stats, display a message and link directing users to TaskForm page
     return (
