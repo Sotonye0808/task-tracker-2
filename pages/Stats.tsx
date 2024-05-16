@@ -50,7 +50,7 @@ const Stats: React.FC<UserData> = ({ users }) => {
         <div className="container">
           <h2 className="mb-4 text-center mt-4">Your Stats</h2>
           <div className="alert alert-info text-center" role="alert">
-            No stats found. <a href="/TaskForm">Add a task</a>
+            No stats found. <a href="/Login">Login</a> and add some tasks!
           </div>
           <button className='btn fixed btn-info' onClick={handleGoBack}>
               Go Back
