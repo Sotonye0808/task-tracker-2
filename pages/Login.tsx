@@ -34,11 +34,11 @@ const Login: React.FC = () => {
       };
 
     const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setUsername(event.target.value);
+        setUsername(event.target.value.trim());
     };
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(event.target.value);
+        setEmail(event.target.value.trim());
     };
 
     const handleSubmit = async (event: React.FormEvent) => {
