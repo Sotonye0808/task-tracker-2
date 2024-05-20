@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Head from 'next/head';
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [darkMode, setDarkMode] = useState(false);
@@ -40,6 +41,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <h1 className="mt-2 mb-3">TASK TRACKER</h1>
           {children}
           <Analytics />
+          <SpeedInsights />
         </div>
       </div>
       <style jsx global>
