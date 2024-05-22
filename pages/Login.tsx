@@ -60,7 +60,7 @@ const Login: React.FC = () => {
             localStorage.setItem('userId', userId);
             localStorage.setItem('isLoggedOn', 'true');
             // When the user logs in or signs up, set the userId in a cookie
-            document.cookie = `userId=${userId}; path=/`;
+            document.cookie = `userId=${userId}; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
             // Redirect to index page
             router.push('/');
         } else if (data.status === 'usernameMismatch') {
@@ -94,7 +94,7 @@ const Login: React.FC = () => {
             localStorage.setItem('userId', userId);
             localStorage.setItem('isLoggedOn', 'true');
             // When the user logs in or signs up, set the userId in a cookie
-            document.cookie = `userId=${userId}; path=/`;
+            document.cookie = `userId=${userId}; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
             // Redirect to index page
             router.push('/');
         } else {
