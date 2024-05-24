@@ -401,7 +401,7 @@ const TasksPage: React.FC<UserData> = ({ users, error }) => {
         <style jsx global>
           {`
           * {
-            transition: all 0.2s ease-in-out;
+            transition: all 0.25s;
           }
           /*styling for the body element to also respond to the theme toggle*/
           body {

@@ -47,7 +47,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <style jsx global>
         {`
         * {
-            transition: all 0.2s ease-in-out;
+            transition: all 0.25s;
           }
           p a{
               color: steelblue;
